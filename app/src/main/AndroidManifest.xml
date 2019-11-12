@@ -9,6 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".createProfileActivity"></activity>
+        <activity android:name=".signUpActivity" />
+        <activity android:name=".myProfileActivity" />
+        <activity android:name=".settingsActivity" />
+        <activity android:name=".contactsActivity" />
+        <activity android:name=".homePageActivity" />
+        <activity android:name=".loginActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
