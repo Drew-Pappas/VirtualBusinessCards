@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "363336002567",
+    "firebase_url": "https://virtualbusinesscards-96adf.firebaseio.com",
+    "project_id": "virtualbusinesscards-96adf",
+    "storage_bucket": "virtualbusinesscards-96adf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:363336002567:android:e4c377e834b89477fc4ea2",
+        "android_client_info": {
+          "package_name": "com.example.virtualbusinesscards"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "363336002567-hvcjde373mo4bpnc2elcdogp8t1fjfhh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.virtualbusinesscards",
+            "certificate_hash": "c0ce831f7b10bf340d3776cc6589070db3ab9716"
+          }
+        },
+        {
+          "client_id": "363336002567-lps5fs568ftmorh9j09knnnc1fc6mf42.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOWpZdK0osaxdQSD5l2coGzbITJvFtkHw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "363336002567-lps5fs568ftmorh9j09knnnc1fc6mf42.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
