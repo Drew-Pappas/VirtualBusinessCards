@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+// Testing commit
+
 public class loginActivity extends AppCompatActivity {
 
     @Override
