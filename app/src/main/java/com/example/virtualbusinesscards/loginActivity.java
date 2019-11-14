@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 // Testing commit
-
+// Testing commit without update
 public class loginActivity extends AppCompatActivity {
 
     @Override
