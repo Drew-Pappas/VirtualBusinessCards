@@ -12,4 +12,4 @@ public class createProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_profile);
     }
 }
-// test comment
+ // test 
