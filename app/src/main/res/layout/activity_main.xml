@@ -21,4 +21,12 @@
         android:text="Log In"
         tools:layout_editor_absoluteX="161dp"
         tools:layout_editor_absoluteY="604dp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="187dp"
+        android:layout_height="159dp"
+        app:srcCompat="@android:drawable/star_big_off"
+        tools:layout_editor_absoluteX="112dp"
+        tools:layout_editor_absoluteY="272dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
