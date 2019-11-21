@@ -18,6 +18,7 @@ public class homePageActivity extends AppCompatActivity implements BottomNavigat
 
     private MyProfileFragment myProfileFragment;
     private ContactsFragment contactsFragment;
+    private fragment_scan fragment_scan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +30,9 @@ public class homePageActivity extends AppCompatActivity implements BottomNavigat
 
         myProfileFragment = new MyProfileFragment();
         contactsFragment = new ContactsFragment();
+        fragment_scan = new fragment_scan();
 
-        //TODO Set the fragment to a default page with setFragment() if needed
+        setFragment(fragment_scan);
         homepageMainNav.setOnNavigationItemSelectedListener(this);
 
     }
@@ -42,7 +44,7 @@ public class homePageActivity extends AppCompatActivity implements BottomNavigat
                 setFragment(contactsFragment);
                 return true;
             case R.id.scan_nav_item:
-                //TODO add set scan fragment and call setfragment function
+                setFragment(fragment_scan);
                 return true;
             case R.id.profile_nav_item:
                 setFragment(myProfileFragment);
