@@ -35,7 +35,7 @@
         tools:layout_editor_absoluteY="480dp" />
 
     <Button
-        android:id="@+id/buttonForgot "
+        android:id="@+id/buttonForgot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Forgot Email or Passowrd"

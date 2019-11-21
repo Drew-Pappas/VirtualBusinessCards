@@ -8,10 +8,10 @@
 
     <TextView
         android:id="@+id/textViewSettings"
-        android:layout_width="225dp"
-        android:layout_height="33dp"
+        android:layout_width="288dp"
+        android:layout_height="43dp"
         android:text="Select whether to make the following visable to other users"
-        tools:layout_editor_absoluteX="93dp"
+        tools:layout_editor_absoluteX="48dp"
         tools:layout_editor_absoluteY="59dp" />
 
     <TextView
