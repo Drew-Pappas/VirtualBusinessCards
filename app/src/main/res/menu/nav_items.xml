@@ -12,6 +12,6 @@
         android:title="Scan" />
     <item
         android:id="@+id/contacts_nav_item"
-        android:icon="@drawable/ic_book_icon"
+        android:icon="@drawable/ic_contacts_icon"
         android:title="Contacts" />
 </menu>
