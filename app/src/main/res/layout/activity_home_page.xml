@@ -15,7 +15,9 @@
         android:background="#FFEB3B"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/nav_items" />
+        app:menu="@menu/nav_items"
+
+    />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
