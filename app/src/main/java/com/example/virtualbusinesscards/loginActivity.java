@@ -42,7 +42,6 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
 
         if (view == buttonLoginLogin){
-            Toast.makeText(this, "test", Toast.LENGTH_SHORT).show();
             Intent homepageIntent = new Intent(loginActivity.this, homePageActivity.class);
             startActivity(homepageIntent);
         }

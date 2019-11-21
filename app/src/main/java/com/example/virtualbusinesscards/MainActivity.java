@@ -34,14 +34,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if (view == buttonLoginMain){
-            Toast.makeText(this, "login", Toast.LENGTH_SHORT).show();
             Intent loginIntent = new Intent(MainActivity.this, loginActivity.class);
             startActivity(loginIntent);
         }
         else if (view == buttonSignUpMain){
-            Toast.makeText(this, "signup", Toast.LENGTH_SHORT).show();
             Intent signUpIntent = new Intent(MainActivity.this, signUpActivity.class);
             startActivity(signUpIntent);
         }
+
     }
 }

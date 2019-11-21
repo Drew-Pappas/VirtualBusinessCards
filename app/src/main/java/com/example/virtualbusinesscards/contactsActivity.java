@@ -11,7 +11,6 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class contactsActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
-    //test
 
     private BottomNavigationView contactsMainNav;
     @Override
@@ -31,19 +30,15 @@ public class contactsActivity extends AppCompatActivity implements BottomNavigat
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch(menuItem.getItemId()){
             case R.id.contacts_nav_item:
-                //setFragment(contactsFragment);
-                Toast.makeText(this, "already on this activity", Toast.LENGTH_SHORT).show();
 
                 return true;
+
             case R.id.scan_nav_item:
-                //setFragment(fragment_scan);
                 Intent scanIntent = new Intent(contactsActivity.this, homePageActivity.class);
                 startActivity(scanIntent);
 
                 return true;
             case R.id.profile_nav_item:
-                //setFragment(myProfileFragment);
-                Toast.makeText(this, "profilepage", Toast.LENGTH_SHORT).show();
                 Intent profileIntent = new Intent(contactsActivity.this, myProfileActivity.class);
                 startActivity(profileIntent);
                 return true;

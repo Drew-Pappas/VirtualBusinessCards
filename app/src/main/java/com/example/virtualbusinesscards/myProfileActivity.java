@@ -31,19 +31,15 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
 
         switch(menuItem.getItemId()){
             case R.id.contacts_nav_item:
-                //setFragment(contactsFragment);
                 Intent contactsIntent = new Intent(myProfileActivity.this, contactsActivity.class);
                 startActivity(contactsIntent);
                 return true;
             case R.id.scan_nav_item:
-                //setFragment(fragment_scan);
                 Intent scanIntent = new Intent(myProfileActivity.this, homePageActivity.class);
                 startActivity(scanIntent);
 
                 return true;
             case R.id.profile_nav_item:
-                //setFragment(myProfileFragment);
-                Toast.makeText(this, "already on this activity", Toast.LENGTH_SHORT).show();
 
                 return true;
             default:
