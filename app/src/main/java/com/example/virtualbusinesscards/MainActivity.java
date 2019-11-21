@@ -22,6 +22,9 @@ public class MainActivity extends AppCompatActivity {
         buttonSignUpMain = findViewById(R.id.buttonSignUpMain);
         buttonLoginMain = findViewById(R.id.buttonLogInMain);
 
-        //make sure buttons are working 
+        //make sure buttons are working
+        buttonSignUpMain.setOnClickListener(this);
+        buttonLoginMain.setOnClickListener(this);;
+
     }
 }
