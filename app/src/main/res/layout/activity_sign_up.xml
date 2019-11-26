@@ -8,10 +8,9 @@
 
     <EditText
         android:id="@+id/editText"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="98dp"
-        android:layout_marginTop="99dp"
+        android:layout_marginTop="112dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="First Name"
@@ -20,10 +19,9 @@
 
     <EditText
         android:id="@+id/editText2"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="98dp"
-        android:layout_marginTop="41dp"
+        android:layout_marginTop="28dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Last Name"
@@ -58,8 +56,8 @@
         android:id="@+id/editText5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="94dp"
-        android:layout_marginTop="47dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="43dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Password"
@@ -70,8 +68,8 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="128dp"
-        android:layout_marginTop="79dp"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="40dp"
         android:text="Complete Sign Up"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText5" />
