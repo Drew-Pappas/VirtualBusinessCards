@@ -92,6 +92,8 @@ public class homePageActivity extends AppCompatActivity implements BottomNavigat
 
         } else if (view == buttonScanQr){
             Toast.makeText(this, "scan QR", Toast.LENGTH_SHORT).show();
+            Intent qrIntent = new Intent(homePageActivity.this, cameraInputActivity.class);
+            startActivity(qrIntent);
 
         } else if (view == buttonSettings){
             Toast.makeText(this, "settings", Toast.LENGTH_SHORT).show();
