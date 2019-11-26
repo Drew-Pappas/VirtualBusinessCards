@@ -8,10 +8,10 @@
 
     <EditText
         android:id="@+id/editText"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_marginStart="98dp"
-        android:layout_marginTop="112dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="32dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="First Name"
