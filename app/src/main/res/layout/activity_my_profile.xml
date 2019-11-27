@@ -6,18 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".myProfileActivity">
 
-    <Button
-        android:id="@+id/button_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Edit"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/main_nav"
         android:layout_width="wrap_content"
@@ -28,11 +16,13 @@
         app:menu="@menu/nav_items" />
 
     <EditText
-        android:id="@+id/editText9"
+        android:id="@+id/editTextProfilePhone"
         android:layout_width="104dp"
         android:layout_height="45dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:focusable="false"
+        android:clickable="false"
         app:layout_constraintBottom_toBottomOf="@+id/main_nav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.224"
@@ -41,12 +31,14 @@
         app:layout_constraintVertical_bias="0.575" />
 
     <EditText
-        android:id="@+id/editText13"
+        android:id="@+id/editTextProfileBio"
         android:layout_width="137dp"
         android:layout_height="193dp"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
+        android:focusable="false"
+        android:clickable="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.941"
@@ -67,11 +59,13 @@
         app:layout_constraintVertical_bias="0.46" />
 
     <EditText
-        android:id="@+id/editText8"
+        android:id="@+id/editTextProfileEmail"
         android:layout_width="104dp"
         android:layout_height="45dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:focusable="false"
+        android:clickable="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.224"
@@ -92,11 +86,13 @@
         app:layout_constraintVertical_bias="0.46" />
 
     <EditText
-        android:id="@+id/editText12"
+        android:id="@+id/editTextProfileLocation"
         android:layout_width="104dp"
         android:layout_height="45dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:focusable="false"
+        android:clickable="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.899"
@@ -129,11 +125,13 @@
         app:layout_constraintVertical_bias="0.566" />
 
     <EditText
-        android:id="@+id/editText6"
+        android:id="@+id/editTextProfileName"
         android:layout_width="104dp"
         android:layout_height="45dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:focusable="false"
+        android:clickable="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.224"
@@ -154,11 +152,13 @@
         app:layout_constraintVertical_bias="0.671" />
 
     <EditText
-        android:id="@+id/editText10"
+        android:id="@+id/editTextProfileRole"
         android:layout_width="104dp"
         android:layout_height="45dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:focusable="false"
+        android:clickable="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.224"
@@ -192,16 +192,44 @@
         app:layout_constraintVertical_bias="0.365" />
 
     <EditText
-        android:id="@+id/editText11"
+        android:id="@+id/editTextProfileOrg"
         android:layout_width="104dp"
         android:layout_height="45dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:focusable="false"
+        android:clickable="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.224"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.793" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/main_nav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.212"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.084"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <Switch
+        android:id="@+id/switchProfileEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:showText="false"
+        android:text="Edit "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.84"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.072" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

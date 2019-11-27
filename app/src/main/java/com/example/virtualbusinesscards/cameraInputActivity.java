@@ -126,7 +126,7 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
 
 
         //TODO Implement QRAnalyzer or VisionImage to analyze images
-        
+
 
 
 
