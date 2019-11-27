@@ -1,7 +1,14 @@
 package com.example.virtualbusinesscards;
 
+
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.CameraX;
+
+
+import androidx.camera.core.ImageAnalysis;
+import androidx.camera.core.ImageAnalysisConfig;
+import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
 import androidx.camera.core.PreviewConfig;
 import androidx.core.app.ActivityCompat;
@@ -11,11 +18,18 @@ import androidx.lifecycle.LifecycleOwner;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+
+
 import android.os.Bundle;
+
+import android.util.Size;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import java.util.concurrent.Executor;
+
 
 public class cameraInputActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -61,6 +75,7 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String[] permissions, int[] grantResults) {
@@ -88,6 +103,8 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
 
     public void startCamera(){
         Toast.makeText(this, "test2", Toast.LENGTH_SHORT).show();
+
+
         PreviewConfig config = new PreviewConfig.Builder().build();
         Preview preview = new Preview(config);
 
@@ -106,6 +123,14 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
                 });
 
         CameraX.bindToLifecycle((LifecycleOwner) this, preview);
+
+
+        //TODO Implement QRAnalyzer or VisionImage to analyze images
+        
+
+
+
+
     }
 
     @Override
@@ -114,6 +139,13 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
             Intent homepageIntent = new Intent(cameraInputActivity.this, homePageActivity.class);
             startActivity(homepageIntent);
             Toast.makeText(this, "working?", Toast.LENGTH_SHORT).show();
+
+
         }
     }
+
+
+
+
+
 }
