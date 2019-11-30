@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class signUpActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -88,7 +90,23 @@ public class signUpActivity extends AppCompatActivity implements View.OnClickLis
                                         Toast.makeText(signUpActivity.this,
                                                 "Account successfully created", Toast.LENGTH_SHORT).show();
 
-                                        FirebaseUser user = mAuth.getCurrentUser();
+                                        //String user = mAuth.getCurrentUser().getUid(); Is this necessary?
+                                        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                                        //Create new user object for firebase database upon successful signup
+                                        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                        final DatabaseReference myRef = database.getReference("Users");
+
+
+                                        User newVBUser = new User(
+                                                userID, name, email,
+                                                phoneNumber, "", "",
+                                                "", ""
+                                                );
+                                        myRef.child(userID).setValue(newVBUser);
+
+
+
                                         Intent loginIntent = new Intent(signUpActivity.this, loginActivity.class);
                                         startActivity(loginIntent);
 
@@ -111,6 +129,9 @@ public class signUpActivity extends AppCompatActivity implements View.OnClickLis
             }
 
 
+        } else if (view == buttonSignUpBack){
+            Intent initialActivityIntent = new Intent(signUpActivity.this, MainActivity.class);
+            startActivity(initialActivityIntent);
         }
     }
 }

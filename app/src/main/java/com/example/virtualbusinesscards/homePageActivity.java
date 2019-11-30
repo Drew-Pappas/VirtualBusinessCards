@@ -1,6 +1,7 @@
 package com.example.virtualbusinesscards;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,6 +18,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.WriterException;
 
 import androidmads.library.qrgenearator.QRGContents;
@@ -31,18 +39,17 @@ public class homePageActivity extends AppCompatActivity implements BottomNavigat
     String TAG = "GenerateQRCode";
     ImageView imageViewQRImage;
     Button buttonGenerateQR, buttonScanQr, buttonSettings;
-    String inputValue;
+    String currentUser;
     Bitmap bitmap;
     QRGEncoder qrgEncoder;
-    EditText edtValue; //TODO DELETE LATER
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-        edtValue = (EditText) findViewById(R.id.edt_value); //TODO DELETE LATER
 
+        currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         imageViewQRImage = (ImageView) findViewById(R.id.imageViewQRImage);
         buttonGenerateQR = (Button) findViewById(R.id.buttonGenerateQR);
@@ -59,13 +66,87 @@ public class homePageActivity extends AppCompatActivity implements BottomNavigat
 
         homepageMainNav.setOnNavigationItemSelectedListener(this);
 
+
+
     }
 
     @Override
     public void onClick(View view) {
         if (view == buttonGenerateQR){
-            inputValue = edtValue.getText().toString().trim();
-            if (inputValue.length() > 0) {
+            final FirebaseDatabase database = FirebaseDatabase.getInstance();
+            final DatabaseReference userRef = database.getReference("Users");
+            final DatabaseReference QRSnapshotRef = database.getReference("QRSnapshot");
+
+
+
+
+
+            userRef.orderByChild("userID").equalTo(currentUser).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    User foundUser = dataSnapshot.getValue(User.class);
+                    String foundUserID = foundUser.userID;
+                    String foundUserName = foundUser.userName;
+                    String foundUserRole = foundUser.userRole;
+                    String foundUserBio = foundUser.userBio;
+                    Settings foundUserSettings = foundUser.userShareSettings;
+
+                    String foundUserEmail = Settings.checkShareSetting(foundUserSettings.shareUserEmail,
+                            foundUser.userEmail);
+
+                    String foundUserLocation = Settings.checkShareSetting(foundUserSettings.shareUserLocation,
+                            foundUser.userLocation);
+
+                    String foundUserPhone = Settings.checkShareSetting(foundUserSettings.shareUserPhone,
+                            foundUser.userPhone);
+
+                    String foundUserOrg = Settings.checkShareSetting(foundUserSettings.shareUserOrg,
+                            foundUser.userOrg);
+
+
+                    //Toast.makeText(homePageActivity.this, foundUserSettings, Toast.LENGTH_SHORT).show();
+
+                    //Toast.makeText(homePageActivity.this, "User is in database", Toast.LENGTH_SHORT).show();
+
+
+                     QRSnapshot newQRSnapshot = new QRSnapshot(
+                             foundUserID,foundUserName,foundUserEmail,
+                             foundUserPhone, foundUserRole, foundUserOrg,
+                             foundUserLocation,foundUserBio);
+                     QRSnapshotRef.child(currentUser).setValue(newQRSnapshot);
+
+
+
+
+
+
+                    //Display found bird properties and capitalize name of person and bird
+
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+
+            if (currentUser.length() > 0) {
                 WindowManager manager = (WindowManager) getSystemService(WINDOW_SERVICE);
                 Display display = manager.getDefaultDisplay();
                 Point point = new Point();
@@ -75,8 +156,10 @@ public class homePageActivity extends AppCompatActivity implements BottomNavigat
                 int smallerDimension = width < height ? width : height;
                 smallerDimension = smallerDimension * 1 / 3;
 
+
+
                 qrgEncoder = new QRGEncoder(
-                        inputValue, null,
+                        currentUser, null,
                         QRGContents.Type.TEXT,
                         smallerDimension);
                 try {
@@ -85,8 +168,6 @@ public class homePageActivity extends AppCompatActivity implements BottomNavigat
                 } catch (WriterException e) {
                     Log.v(TAG, e.toString());
                 }
-            } else {
-                edtValue.setError("Required");
             }
 
 

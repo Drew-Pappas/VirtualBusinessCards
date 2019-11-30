@@ -1,8 +1,6 @@
 package com.example.virtualbusinesscards;
 
-public class User {
-
-    //Declare variables for new user object
+public class QRSnapshot {
     public String userID;
     public String userName;
     public String userEmail;
@@ -11,20 +9,17 @@ public class User {
     public String userOrg;
     public String userLocation;
     public String userBio;
-    public Settings userShareSettings;
+    public long timestamp;
 
 
-    //TODO Add user photo
-
-    public User(){
+    public QRSnapshot(){
     }
 
     //set entered user to the variables declared
-    public User(String userID, String userName, String userEmail,
+    public QRSnapshot(String userID, String userName, String userEmail,
                 String userPhone, String userRole, String userOrg,
                 String userLocation, String userBio) {
 
-        //TODO Add user photo
 
         this.userID = userID;
         this.userName = userName;
@@ -34,7 +29,7 @@ public class User {
         this.userOrg = userOrg;
         this.userLocation = userLocation;
         this.userBio = userBio;
-        this.userShareSettings = new Settings();
+        this.timestamp = System.nanoTime();
 
     }
 }
