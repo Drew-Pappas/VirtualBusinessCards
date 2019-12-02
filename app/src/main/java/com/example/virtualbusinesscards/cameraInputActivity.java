@@ -2,12 +2,17 @@ package com.example.virtualbusinesscards;
 
 
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.CameraX;
 
 
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageAnalysisConfig;
+import androidx.camera.core.ImageCapture;
+import androidx.camera.core.ImageCaptureConfig;
+import androidx.camera.core.ImageCapture.OnImageCapturedListener;
 import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
 import androidx.camera.core.PreviewConfig;
@@ -20,21 +25,40 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 
 
+import android.graphics.Bitmap;
+import android.media.Image;
 import android.os.Bundle;
 
+import android.os.Environment;
 import android.util.Size;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.ml.vision.FirebaseVision;
+import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcode;
+import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcodeDetector;
+import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcodeDetectorOptions;
+import com.google.firebase.ml.vision.common.FirebaseVisionImage;
+
+import java.io.File;
+import java.nio.ByteBuffer;
+import java.util.List;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class cameraInputActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextureView cameraInputTextureView;
-    Button buttonCameraInputBack;
+    Button buttonCameraInputBack, buttonScan;
+    ImageView imageViewTest;
+
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 10;
 
     @Override
@@ -44,7 +68,11 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
 
         cameraInputTextureView = findViewById(R.id.cameraInputTextureView);
         buttonCameraInputBack = findViewById(R.id.buttonCameraInputBack);
+        buttonScan = findViewById(R.id.buttonScan);
+
+        imageViewTest = (ImageView) findViewById(R.id.imageViewTest);
         buttonCameraInputBack.setOnClickListener(this);
+        buttonScan.setOnClickListener(this);//Testing for scanning the QR
 
         
         // Here, thisActivity is the current activity
@@ -105,6 +133,7 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
         Toast.makeText(this, "test2", Toast.LENGTH_SHORT).show();
 
 
+
         PreviewConfig config = new PreviewConfig.Builder().build();
         Preview preview = new Preview(config);
 
@@ -117,15 +146,101 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
 
                         //TODO Does this work on an actual phone?
                         cameraInputTextureView.setSurfaceTexture(previewOutput.getSurfaceTexture());
-
-                        Toast.makeText(cameraInputActivity.this, "rendering", Toast.LENGTH_SHORT).show();
                     };
                 });
 
         CameraX.bindToLifecycle((LifecycleOwner) this, preview);
 
 
+        //TODO Implement image capturing
+        /**
+        ImageCaptureConfig captureConfig =
+                new ImageCaptureConfig.Builder()
+                        .setTargetRotation(getWindowManager().getDefaultDisplay().getRotation())
+                        .setCaptureMode(ImageCapture.CaptureMode.MIN_LATENCY)
+                        .build();
+
+        ImageCapture imageCapture = new ImageCapture(captureConfig);
+
+        CameraX.bindToLifecycle((LifecycleOwner) this, imageCapture);
+
+
+        Toast.makeText(this,imageCapture.toString(), Toast.LENGTH_LONG).show();
+
+
+         **/
+
+        //File solution imagecapture
+        /**
+        File outputDir = this.getCacheDir();
+        File imageFile = File.createTempFile(imageCapture,".bmp", outputDir );
+
+
+        imageCapture.takePicture(file,
+                new ImageCapture.OnImageSavedListener() {
+                    @Override
+                    public void onImageSaved(File file) {
+                        // insert your code here.
+                    }
+                    @Override
+                    public void onError(
+                            ImageCapture.ImageCaptureError imageCaptureError,
+                            String message,
+                            Throwable cause) {
+                        // insert your code here.
+                    }
+
+
+
+
+        imageCapture.takePicture(new ImageCapture.OnImageCapturedListener() {
+
+            @Override
+            public void onCaptureSuccess(ImageProxy image, int rotationDegrees) {
+
+                ByteBuffer bb = image.getPlanes()[0].getBuffer();
+                byte[] buf = new byte[bb.remaining()];
+                bb.get(buf);
+
+
+                //Mat mat = Imgcodecs.imdecode(new MatOfByte(buf), Imgcodecs.IMREAD_UNCHANGED);
+
+                // Do something with Mat...
+
+                image.close();
+
+
+            }
+
+
+
+        });**/
+
+
+
         //TODO Implement QRAnalyzer or VisionImage to analyze images
+        /**
+        ImageAnalysisConfig configure =
+                new ImageAnalysisConfig.Builder()
+                        .setTargetResolution(new Size(1280, 720))
+                        .setImageReaderMode(ImageAnalysis.ImageReaderMode.ACQUIRE_LATEST_IMAGE)
+                        .build();
+
+        ImageAnalysis imageAnalysis = new ImageAnalysis(configure);
+
+        //Toast.makeText(this,analyzed, Toast.LENGTH_SHORT).show();
+
+        imageAnalysis.setAnalyzer(Executors.newFixedThreadPool(5), //TODO This executor may be wrong
+                new ImageAnalysis.Analyzer() {
+                    @Override
+                    public void analyze(ImageProxy image, int rotationDegrees) {
+                        // insert your code here.
+                        Toast.makeText(cameraInputActivity.this, image.toString(), Toast.LENGTH_SHORT).show();
+                        final Bitmap bitmap = cameraInputTextureView.getBitmap();//TODO USE BITMAP ELSEWHERE
+                    }
+                });
+         **/
+
 
 
 
@@ -133,12 +248,69 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
 
     }
 
+
+
+
+
     @Override
     public void onClick(View view) {
         if (view == buttonCameraInputBack){
             Intent homepageIntent = new Intent(cameraInputActivity.this, homePageActivity.class);
             startActivity(homepageIntent);
             Toast.makeText(this, "working?", Toast.LENGTH_SHORT).show();
+
+
+        } else if (view == buttonScan){
+            Bitmap item = cameraInputTextureView.getBitmap();
+            runDetector(item);
+            //Toast.makeText(this, item.toString(), Toast.LENGTH_SHORT).show();
+            //imageViewTest.setImageBitmap(item);
+
+
+        }
+    }
+
+    private void runDetector(Bitmap bitmap) {
+        FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bitmap);
+        FirebaseVisionBarcodeDetectorOptions options =
+                new FirebaseVisionBarcodeDetectorOptions.Builder()
+                        .setBarcodeFormats(
+                                FirebaseVisionBarcode.FORMAT_QR_CODE
+                        )
+                        .build();
+        FirebaseVisionBarcodeDetector detector = FirebaseVision.getInstance()
+                .getVisionBarcodeDetector(options);
+
+        detector.detectInImage(image)
+                .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionBarcode>>() {
+                    @Override
+                    public void onSuccess(List<FirebaseVisionBarcode> firebaseVisionBarcodes) {
+                        processResult(firebaseVisionBarcodes);
+                        Toast.makeText(cameraInputActivity.this, "Image Sent to process"
+                                , Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(cameraInputActivity.this, "Scanning failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void processResult(List<FirebaseVisionBarcode> firebaseVisionBarcodes) {
+        for(FirebaseVisionBarcode item : firebaseVisionBarcodes){
+            int value_type = item.getValueType();
+            switch(value_type){
+                case FirebaseVisionBarcode.TYPE_TEXT:
+                {
+                    Toast.makeText(this, item.getRawValue(), Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+                default:
+                    break;
+            }
 
 
         }

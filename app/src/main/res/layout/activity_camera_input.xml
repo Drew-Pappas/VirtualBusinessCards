@@ -27,4 +27,28 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.07" />
 
+    <Button
+        android:id="@+id/buttonScan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Scan"
+        app:layout_constraintBottom_toBottomOf="@+id/cameraInputTextureView"
+        app:layout_constraintEnd_toEndOf="@+id/cameraInputTextureView"
+        app:layout_constraintHorizontal_bias="0.467"
+        app:layout_constraintStart_toStartOf="@+id/cameraInputTextureView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.821" />
+
+    <ImageView
+        android:id="@+id/imageViewTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/cameraInputTextureView"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/cameraInputTextureView"
+        app:layout_constraintTop_toTopOf="@+id/cameraInputTextureView"
+        app:layout_constraintVertical_bias="0.21"
+        tools:srcCompat="@tools:sample/avatars" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
