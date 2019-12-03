@@ -39,6 +39,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcode;
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcodeDetector;
@@ -302,10 +308,15 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
         for(FirebaseVisionBarcode item : firebaseVisionBarcodes){
             int value_type = item.getValueType();
             Toast.makeText(this, "Processing code", Toast.LENGTH_SHORT).show();
+
+
             switch(value_type){
                 case FirebaseVisionBarcode.TYPE_TEXT:
                 {
                     Toast.makeText(this, item.getRawValue(), Toast.LENGTH_SHORT).show();
+                    addScannersInfoToQRSnapshot(item.getRawValue());
+                    addContact(item.getRawValue());
+
                 }
                 break;
 
@@ -317,8 +328,132 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
+    public QRSnapshot addScannersInfoToQRSnapshot(String QRReference){
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference userRef = database.getReference("Users");
+        final DatabaseReference QRSnapshotRef = database.getReference("QRSnapshot");
+
+        String currentUser;
+
+        currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        //Current user reference
+
+        userRef.orderByChild("userID").equalTo(currentUser).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                User foundUser = dataSnapshot.getValue(User.class);
+                String foundUserName = foundUser.userName;
+                String foundUserEmail = foundUser.userEmail;
+                String foundUserPhone = foundUser.userPhone;
+                String foundUserRole = foundUser.userRole;
+                String foundUserOrg = foundUser.userOrg;
+                String foundUserLocation = foundUser.userLocation;
+                String foundUserBio = foundUser.userBio;
+
+                QRSnapshot newQRSnapshotChild = new QRSnapshot(
+                        currentUser,foundUserName,foundUserEmail,
+                        foundUserPhone, foundUserRole, foundUserOrg,
+                        foundUserLocation,foundUserBio);
+
+                QRSnapshotRef.child(QRReference).child("userToBeAddedSnapshot").setValue(newQRSnapshotChild);
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        });
 
 
+
+        return null;
+    }
+
+    public void addContact(String QRReference){ //QRSnapshot snapshot
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference contactListRef = database.getReference("ContactList");
+        final DatabaseReference QRSnapshotRef = database.getReference("QRSnapshot");
+
+
+
+        String currentUser;
+        currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        //
+        QRSnapshotRef.orderByChild("userID").equalTo(QRReference).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                User foundUser = dataSnapshot.getValue(User.class);
+                String foundUserName = foundUser.userName;
+                String foundUserEmail = foundUser.userEmail;
+                String foundUserPhone = foundUser.userPhone;
+                String foundUserRole = foundUser.userRole;
+                String foundUserOrg = foundUser.userOrg;
+                String foundUserLocation = foundUser.userLocation;
+                String foundUserBio = foundUser.userBio;
+
+                QRSnapshot newQRSnapshotChild = new QRSnapshot(
+                        currentUser,foundUserName,foundUserEmail,
+                        foundUserPhone, foundUserRole, foundUserOrg,
+                        foundUserLocation,foundUserBio);
+
+                contactListRef.child(currentUser).child(QRReference).setValue(newQRSnapshotChild);
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        });
+
+        //
+
+        //contactListRef.child(currentUser).child(QRReference).setValue("");
+
+
+
+
+        //QRSnapshotRef.child(QRReference);
+
+
+
+
+    }
 
 
 }

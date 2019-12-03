@@ -51,7 +51,7 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
         profilePieces.add(editTextProfileLocation);
         profilePieces.add(editTextProfileBio);
 
-        profilePic = findViewById((R.id.profilePic));
+        //profilePic = findViewById((R.id.profilePic));
 
         switchProfileEdit = findViewById(R.id.switchProfileEdit);
         switchProfileEdit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

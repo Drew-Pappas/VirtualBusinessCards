@@ -10,6 +10,7 @@ public class QRSnapshot {
     public String userLocation;
     public String userBio;
     public long timestamp;
+    public QRSnapshot userToBeAddedSnapshot;
 
 
     public QRSnapshot(){
@@ -30,6 +31,7 @@ public class QRSnapshot {
         this.userLocation = userLocation;
         this.userBio = userBio;
         this.timestamp = System.nanoTime();
+        this.userToBeAddedSnapshot = new QRSnapshot();
 
     }
 }
