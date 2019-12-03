@@ -12,6 +12,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
+import android.widget.ImageView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -25,6 +26,8 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
              editTextProfileBio;
 
     Switch switchProfileEdit;
+
+    ImageView profilePic;
 
     ArrayList<EditText> profilePieces = new ArrayList<EditText>();
 
@@ -47,6 +50,8 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
         profilePieces.add(editTextProfileOrg);
         profilePieces.add(editTextProfileLocation);
         profilePieces.add(editTextProfileBio);
+
+        profilePic = findViewById((R.id.profilePic));
 
         switchProfileEdit = findViewById(R.id.switchProfileEdit);
         switchProfileEdit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
