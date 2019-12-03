@@ -154,7 +154,7 @@ public class homePageActivity extends AppCompatActivity implements BottomNavigat
                 int width = point.x;
                 int height = point.y;
                 int smallerDimension = width < height ? width : height;
-                smallerDimension = smallerDimension * 1 / 3;
+                smallerDimension = smallerDimension * 1 / 2;
 
 
 

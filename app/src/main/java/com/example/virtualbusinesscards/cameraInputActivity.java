@@ -301,6 +301,7 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
     private void processResult(List<FirebaseVisionBarcode> firebaseVisionBarcodes) {
         for(FirebaseVisionBarcode item : firebaseVisionBarcodes){
             int value_type = item.getValueType();
+            Toast.makeText(this, "Processing code", Toast.LENGTH_SHORT).show();
             switch(value_type){
                 case FirebaseVisionBarcode.TYPE_TEXT:
                 {
