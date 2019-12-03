@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.virtualbusinesscards">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,10 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".cameraInputActivity"></activity>
-
+        <activity android:name=".ForgotPassword"></activity>
+        <activity android:name=".cameraInputActivity" />
         <activity android:name=".signUpActivity" />
-
         <activity android:name=".myProfileActivity" />
         <activity android:name=".settingsActivity" />
         <activity android:name=".contactsActivity" />
@@ -25,11 +26,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"
             android:value="barcode" />
     </application>
-
-    <uses-permission android:name="android.permission.CAMERA" />
 
 </manifest>
