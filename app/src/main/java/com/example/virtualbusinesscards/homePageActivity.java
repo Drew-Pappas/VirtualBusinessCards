@@ -25,6 +25,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.WriterException;
 
 import androidmads.library.qrgenearator.QRGContents;
@@ -115,6 +116,53 @@ public class homePageActivity extends AppCompatActivity implements BottomNavigat
                              foundUserLocation,foundUserBio);
                      QRSnapshotRef.child(currentUser).setValue(newQRSnapshot);
 
+                     /**
+                    QRSnapshotRef.child(currentUser).child("userToBeAddedSnapshot").addValueEventListener(new ValueEventListener() { //attach listener
+
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) { //something changed!
+                            for (DataSnapshot locationSnapshot : dataSnapshot.getChildren()) {
+                                String location = locationSnapshot.getValue().toString();
+                                Toast.makeText(homePageActivity.this, "data changed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) { //update UI here if error occurred.
+
+                        }
+                    });
+                        **/
+
+                    QRSnapshotRef.child(currentUser).child("userToBeAddedSnapshot").addChildEventListener(new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                        }
+
+                        @Override
+                        public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                            Toast.makeText(homePageActivity.this, "child changed", Toast.LENGTH_SHORT).show();
+                            addContactFromScannedUser();
+                            QRSnapshotRef.child(currentUser).child("userToBeAddedSnapshot").removeEventListener(this);
+                        }
+
+                        @Override
+                        public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                        }
+
+                        @Override
+                        public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
 
 
 
@@ -126,7 +174,7 @@ public class homePageActivity extends AppCompatActivity implements BottomNavigat
 
                 @Override
                 public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                    Toast.makeText(homePageActivity.this, "Changed", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -144,6 +192,9 @@ public class homePageActivity extends AppCompatActivity implements BottomNavigat
 
                 }
             });
+
+
+
 
 
             if (currentUser.length() > 0) {
@@ -185,6 +236,61 @@ public class homePageActivity extends AppCompatActivity implements BottomNavigat
         }
     }
 
+    public void addContactFromScannedUser(){
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference contactListRef = database.getReference("ContactList");
+        final DatabaseReference QRSnapshotRef = database.getReference("QRSnapshot");
+
+        String currentUser;
+        currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        QRSnapshotRef.orderByChild("userID").equalTo(currentUser).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                User foundUser = dataSnapshot.child("userToBeAddedSnapshot").getValue(User.class);
+                String foundUserID = foundUser.userID;
+                String foundUserName = foundUser.userName;
+                String foundUserEmail = foundUser.userEmail;
+                String foundUserPhone = foundUser.userPhone;
+                String foundUserRole = foundUser.userRole;
+                String foundUserOrg = foundUser.userOrg;
+                String foundUserLocation = foundUser.userLocation;
+                String foundUserBio = foundUser.userBio;
+
+                QRSnapshot newQRSnapshotChild = new QRSnapshot(
+                        foundUserID,foundUserName,foundUserEmail,
+                        foundUserPhone, foundUserRole, foundUserOrg,
+                        foundUserLocation,foundUserBio);
+
+                contactListRef.child(currentUser).child(foundUserID).setValue(newQRSnapshotChild);
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        });
+
+
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch(menuItem.getItemId()){
@@ -204,6 +310,7 @@ public class homePageActivity extends AppCompatActivity implements BottomNavigat
         }
 
     }
+
 
 
 
