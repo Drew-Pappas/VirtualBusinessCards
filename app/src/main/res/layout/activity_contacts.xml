@@ -10,9 +10,11 @@
         android:id="@+id/main_nav"
         android:layout_width="wrap_content"
         android:layout_height="57dp"
-        android:background="#FFEB3B"
+        android:background="#273BAD"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/nav_items" />
+        app:menu="@menu/nav_items"
+        app:itemIconTint="@color/bottom_nav_colors"
+        app:itemTextColor="@color/bottom_nav_colors"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

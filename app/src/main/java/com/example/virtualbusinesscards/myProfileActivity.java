@@ -1,6 +1,7 @@
 package com.example.virtualbusinesscards;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -15,6 +16,13 @@ import android.widget.Toast;
 import android.widget.ImageView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -53,6 +61,8 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
 
         //profilePic = findViewById((R.id.profilePic));
 
+        renderUI();
+
         switchProfileEdit = findViewById(R.id.switchProfileEdit);
         switchProfileEdit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -67,6 +77,7 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
                         profilePiece.setFocusableInTouchMode(true);
                     }
 
+
                 }
 
                 if (isChecked == false){
@@ -76,6 +87,10 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
                         profilePiece.setFocusable(false);
                         profilePiece.setClickable(false);
                     }
+
+
+                    updateProfile();
+                    renderUI();
                 }
             }
 
@@ -113,6 +128,82 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
             default:
                 return false;
         }
+    }
+
+    public void renderUI(){
+        String currentUser;
+        currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference userRef = database.getReference("Users");
+
+        userRef.orderByChild("userID").equalTo(currentUser).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                User foundUser = dataSnapshot.getValue(User.class);
+
+                String foundUserName = foundUser.userName;
+                String foundUserEmail = foundUser.userEmail;
+                String foundUserPhone = foundUser.userPhone;
+                String foundUserRole = foundUser.userRole;
+                String foundUserOrg = foundUser.userOrg;
+                String foundUserLocation = foundUser.userLocation;
+                String foundUserBio = foundUser.userBio;
+
+                editTextProfileName.setText(foundUserName);
+                editTextProfileEmail.setText(foundUserEmail);
+                editTextProfilePhone.setText(foundUserPhone);
+                editTextProfileRole.setText(foundUserRole);
+                editTextProfileOrg.setText(foundUserOrg);
+                editTextProfileLocation.setText(foundUserLocation);
+                editTextProfileBio.setText(foundUserBio);
+
+
+
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    public void updateProfile(){
+        String currentUser;
+        currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference userRef = database.getReference("Users");
+
+
+        User updatedUser = new User(
+                currentUser, editTextProfileName.getText().toString(),
+                editTextProfileEmail.getText().toString(), editTextProfilePhone.getText().toString(),
+                editTextProfileRole.getText().toString(), editTextProfileOrg.getText().toString(),
+                editTextProfileLocation.getText().toString(), editTextProfileBio.getText().toString()
+        );
+
+        userRef.child(currentUser).setValue(updatedUser);
+
+
     }
 
 }

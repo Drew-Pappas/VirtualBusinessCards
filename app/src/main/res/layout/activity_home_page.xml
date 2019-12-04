@@ -5,6 +5,7 @@
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#1E6B6161"
     tools:context=".homePageActivity">
 
 
@@ -39,10 +40,10 @@
         android:text="Settings"
         app:layout_constraintBottom_toBottomOf="@+id/main_nav"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.904"
+        app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.077" />
+        app:layout_constraintVertical_bias="0.023" />
 
     <ImageView
         android:id="@+id/imageViewQRImage"
@@ -60,10 +61,13 @@
         android:id="@+id/main_nav"
         android:layout_width="wrap_content"
         android:layout_height="57dp"
-        android:background="#FFEB3B"
+        android:background="#273BAD"
+        app:itemIconTint="@color/bottom_nav_colors"
+        app:itemTextColor="@color/bottom_nav_colors"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/nav_items"
+
 
         />
 
