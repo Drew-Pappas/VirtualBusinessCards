@@ -78,10 +78,6 @@ public class homePageActivity extends AppCompatActivity implements BottomNavigat
             final DatabaseReference userRef = database.getReference("Users");
             final DatabaseReference QRSnapshotRef = database.getReference("QRSnapshot");
 
-
-
-
-
             userRef.orderByChild("userID").equalTo(currentUser).addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -105,10 +101,6 @@ public class homePageActivity extends AppCompatActivity implements BottomNavigat
                             foundUser.userOrg);
 
 
-                    //Toast.makeText(homePageActivity.this, foundUserSettings, Toast.LENGTH_SHORT).show();
-
-                    //Toast.makeText(homePageActivity.this, "User is in database", Toast.LENGTH_SHORT).show();
-
 
                      QRSnapshot newQRSnapshot = new QRSnapshot(
                              foundUserID,foundUserName,foundUserEmail,
@@ -116,23 +108,6 @@ public class homePageActivity extends AppCompatActivity implements BottomNavigat
                              foundUserLocation,foundUserBio);
                      QRSnapshotRef.child(currentUser).setValue(newQRSnapshot);
 
-                     /**
-                    QRSnapshotRef.child(currentUser).child("userToBeAddedSnapshot").addValueEventListener(new ValueEventListener() { //attach listener
-
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) { //something changed!
-                            for (DataSnapshot locationSnapshot : dataSnapshot.getChildren()) {
-                                String location = locationSnapshot.getValue().toString();
-                                Toast.makeText(homePageActivity.this, "data changed", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) { //update UI here if error occurred.
-
-                        }
-                    });
-                        **/
 
                     QRSnapshotRef.child(currentUser).child("userToBeAddedSnapshot").addChildEventListener(new ChildEventListener() {
                         @Override
@@ -164,12 +139,6 @@ public class homePageActivity extends AppCompatActivity implements BottomNavigat
                     });
 
 
-
-
-
-
-                    //Display found bird properties and capitalize name of person and bird
-
                 }
 
                 @Override
@@ -192,9 +161,6 @@ public class homePageActivity extends AppCompatActivity implements BottomNavigat
 
                 }
             });
-
-
-
 
 
             if (currentUser.length() > 0) {
