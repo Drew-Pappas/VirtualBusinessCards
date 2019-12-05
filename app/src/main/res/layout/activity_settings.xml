@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#1E6B6161"
     tools:context=".settingsActivity">
 
     <Button
@@ -79,6 +80,7 @@
         android:layout_width="288dp"
         android:layout_height="43dp"
         android:text="Select whether to make the following visable to other users"
+        android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.439"
@@ -91,6 +93,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Organization/Company"
+        android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.246"
@@ -103,6 +106,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Phone"
+        android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.175"
@@ -115,6 +119,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Location"
+        android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.183"
@@ -127,6 +132,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Email"
+        android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.172"
