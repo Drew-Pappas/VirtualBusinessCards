@@ -117,9 +117,12 @@ public class homePageActivity extends AppCompatActivity implements BottomNavigat
 
                         @Override
                         public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                            Toast.makeText(homePageActivity.this, "child changed", Toast.LENGTH_SHORT).show();
                             addContactFromScannedUser();
-                            QRSnapshotRef.child(currentUser).child("userToBeAddedSnapshot").removeEventListener(this);
+                            QRSnapshotRef.child(currentUser).child("userToBeAddedSnapshot")
+                                    .removeEventListener(this);
+                            Intent newContactIntent = new Intent(homePageActivity.this,
+                                    contactsActivity.class);
+                            startActivity(newContactIntent);
                         }
 
                         @Override
@@ -143,7 +146,6 @@ public class homePageActivity extends AppCompatActivity implements BottomNavigat
 
                 @Override
                 public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                    Toast.makeText(homePageActivity.this, "Changed", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -189,12 +191,10 @@ public class homePageActivity extends AppCompatActivity implements BottomNavigat
 
 
         } else if (view == buttonScanQr){
-            Toast.makeText(this, "scan QR", Toast.LENGTH_SHORT).show();
             Intent qrIntent = new Intent(homePageActivity.this, cameraInputActivity.class);
             startActivity(qrIntent);
 
         } else if (view == buttonSettings){
-            Toast.makeText(this, "settings", Toast.LENGTH_SHORT).show();
             Intent settingsIntent = new Intent(homePageActivity.this, settingsActivity.class);
             startActivity(settingsIntent);
 

@@ -120,11 +120,11 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted, yay! Do the
                     // camera-related task you need to do.
-                    Toast.makeText(this, "test1", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "test1", Toast.LENGTH_SHORT).show();
                 } else {
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
-                    Toast.makeText(this, "didn't work", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "didn't work", Toast.LENGTH_SHORT).show();
                     //TODO For some reason denying permissions doesn't show anything. Will need to be fixed.
                 }
                 return;
@@ -136,8 +136,6 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
     }
 
     public void startCamera(){
-        Toast.makeText(this, "test2", Toast.LENGTH_SHORT).show();
-
 
 
         PreviewConfig config = new PreviewConfig.Builder().build();
@@ -157,101 +155,6 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
 
         CameraX.bindToLifecycle((LifecycleOwner) this, preview);
 
-
-        //TODO Implement image capturing
-        /**
-        ImageCaptureConfig captureConfig =
-                new ImageCaptureConfig.Builder()
-                        .setTargetRotation(getWindowManager().getDefaultDisplay().getRotation())
-                        .setCaptureMode(ImageCapture.CaptureMode.MIN_LATENCY)
-                        .build();
-
-        ImageCapture imageCapture = new ImageCapture(captureConfig);
-
-        CameraX.bindToLifecycle((LifecycleOwner) this, imageCapture);
-
-
-        Toast.makeText(this,imageCapture.toString(), Toast.LENGTH_LONG).show();
-
-
-         **/
-
-        //File solution imagecapture
-        /**
-        File outputDir = this.getCacheDir();
-        File imageFile = File.createTempFile(imageCapture,".bmp", outputDir );
-
-
-        imageCapture.takePicture(file,
-                new ImageCapture.OnImageSavedListener() {
-                    @Override
-                    public void onImageSaved(File file) {
-                        // insert your code here.
-                    }
-                    @Override
-                    public void onError(
-                            ImageCapture.ImageCaptureError imageCaptureError,
-                            String message,
-                            Throwable cause) {
-                        // insert your code here.
-                    }
-
-
-
-
-        imageCapture.takePicture(new ImageCapture.OnImageCapturedListener() {
-
-            @Override
-            public void onCaptureSuccess(ImageProxy image, int rotationDegrees) {
-
-                ByteBuffer bb = image.getPlanes()[0].getBuffer();
-                byte[] buf = new byte[bb.remaining()];
-                bb.get(buf);
-
-
-                //Mat mat = Imgcodecs.imdecode(new MatOfByte(buf), Imgcodecs.IMREAD_UNCHANGED);
-
-                // Do something with Mat...
-
-                image.close();
-
-
-            }
-
-
-
-        });**/
-
-
-
-        //TODO Implement QRAnalyzer or VisionImage to analyze images
-        /**
-        ImageAnalysisConfig configure =
-                new ImageAnalysisConfig.Builder()
-                        .setTargetResolution(new Size(1280, 720))
-                        .setImageReaderMode(ImageAnalysis.ImageReaderMode.ACQUIRE_LATEST_IMAGE)
-                        .build();
-
-        ImageAnalysis imageAnalysis = new ImageAnalysis(configure);
-
-        //Toast.makeText(this,analyzed, Toast.LENGTH_SHORT).show();
-
-        imageAnalysis.setAnalyzer(Executors.newFixedThreadPool(5), //TODO This executor may be wrong
-                new ImageAnalysis.Analyzer() {
-                    @Override
-                    public void analyze(ImageProxy image, int rotationDegrees) {
-                        // insert your code here.
-                        Toast.makeText(cameraInputActivity.this, image.toString(), Toast.LENGTH_SHORT).show();
-                        final Bitmap bitmap = cameraInputTextureView.getBitmap();//TODO USE BITMAP ELSEWHERE
-                    }
-                });
-         **/
-
-
-
-
-
-
     }
 
 
@@ -263,15 +166,11 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
         if (view == buttonCameraInputBack){
             Intent homepageIntent = new Intent(cameraInputActivity.this, homePageActivity.class);
             startActivity(homepageIntent);
-            Toast.makeText(this, "working?", Toast.LENGTH_SHORT).show();
 
 
         } else if (view == buttonScan){
             Bitmap item = cameraInputTextureView.getBitmap();
             runDetector(item);
-            //Toast.makeText(this, item.toString(), Toast.LENGTH_SHORT).show();
-            //imageViewTest.setImageBitmap(item);
-
 
         }
     }
@@ -292,14 +191,15 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
                     @Override
                     public void onSuccess(List<FirebaseVisionBarcode> firebaseVisionBarcodes) {
                         processResult(firebaseVisionBarcodes);
-                        Toast.makeText(cameraInputActivity.this, "Image Sent to process"
-                                , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(cameraInputActivity.this, "Scanning", Toast.LENGTH_SHORT).show();
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(cameraInputActivity.this, "Scanning failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(cameraInputActivity.this, "Scanning failed," +
+                                " try again", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -307,13 +207,11 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
     private void processResult(List<FirebaseVisionBarcode> firebaseVisionBarcodes) {
         for(FirebaseVisionBarcode item : firebaseVisionBarcodes){
             int value_type = item.getValueType();
-            Toast.makeText(this, "Processing code", Toast.LENGTH_SHORT).show();
 
 
             switch(value_type){
                 case FirebaseVisionBarcode.TYPE_TEXT:
                 {
-                    Toast.makeText(this, item.getRawValue(), Toast.LENGTH_SHORT).show();
                     addScannersInfoToQRSnapshot(item.getRawValue());
                     addContact(item.getRawValue());
 
@@ -416,6 +314,9 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
                         foundUserLocation,foundUserBio);
 
                 contactListRef.child(currentUser).child(QRReference).setValue(newQRSnapshotChild);
+                Intent newContactIntent = new Intent(cameraInputActivity.this,
+                        contactsActivity.class);
+                startActivity(newContactIntent);
 
             }
 
@@ -440,15 +341,6 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
             }
 
         });
-
-        //
-
-        //contactListRef.child(currentUser).child(QRReference).setValue("");
-
-
-
-
-        //QRSnapshotRef.child(QRReference);
 
 
 

@@ -34,4 +34,84 @@ public class QRSnapshot {
         this.userToBeAddedSnapshot = new QRSnapshot();
 
     }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public String getUserPhone() {
+        return userPhone;
+    }
+
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
+    }
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
+
+    public String getUserOrg() {
+        return userOrg;
+    }
+
+    public void setUserOrg(String userOrg) {
+        this.userOrg = userOrg;
+    }
+
+    public String getUserLocation() {
+        return userLocation;
+    }
+
+    public void setUserLocation(String userLocation) {
+        this.userLocation = userLocation;
+    }
+
+    public String getUserBio() {
+        return userBio;
+    }
+
+    public void setUserBio(String userBio) {
+        this.userBio = userBio;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public QRSnapshot getUserToBeAddedSnapshot() {
+        return userToBeAddedSnapshot;
+    }
+
+    public void setUserToBeAddedSnapshot(QRSnapshot userToBeAddedSnapshot) {
+        this.userToBeAddedSnapshot = userToBeAddedSnapshot;
+    }
 }

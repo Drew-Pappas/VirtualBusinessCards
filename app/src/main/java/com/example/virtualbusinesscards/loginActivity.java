@@ -77,6 +77,7 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
 
 
         } else if (view == buttonLoginLogin && (email.equals("") || password.equals(""))){
+
             Toast.makeText(this, "Enter your email and password", Toast.LENGTH_SHORT).show();
         }
 

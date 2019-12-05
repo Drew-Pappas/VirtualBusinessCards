@@ -71,7 +71,6 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
 
                 if (isChecked == true){
-                    Toast.makeText(myProfileActivity.this, "Edit profile", Toast.LENGTH_SHORT).show();
 
                     for (EditText profilePiece : profilePieces){
                         profilePiece.setFocusableInTouchMode(true);
@@ -81,7 +80,7 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
                 }
 
                 if (isChecked == false){
-                    Toast.makeText(myProfileActivity.this, "save changes", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(myProfileActivity.this, "Changes Saved", Toast.LENGTH_SHORT).show();
 
                     for (EditText profilePiece : profilePieces){
                         profilePiece.setFocusable(false);

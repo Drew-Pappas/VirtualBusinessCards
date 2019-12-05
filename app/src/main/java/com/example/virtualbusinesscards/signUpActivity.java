@@ -55,6 +55,7 @@ public class signUpActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View view) {
         if (view == buttonSignUpComplete) {
             String name = editTextSignUpFirstName.getText().toString()
+                    + " "
                     + editTextSignUpLastName.getText().toString();
             String phoneNumber = editTextSignUpPhoneNumber.getText().toString()
                     .replaceAll("\\s","")

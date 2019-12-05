@@ -8,13 +8,16 @@
     tools:context=".contactsActivity">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/contactsRecycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteY="674dp" />
+        tools:layout_editor_absoluteY="674dp"
+        android:scrollbars="vertical"
+        android:layout_marginBottom="57dp"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/main_nav"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="57dp"
         android:background="#273BAD"
         app:itemIconTint="@color/bottom_nav_colors"

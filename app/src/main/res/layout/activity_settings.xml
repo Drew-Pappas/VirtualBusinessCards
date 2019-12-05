@@ -79,7 +79,7 @@
         android:id="@+id/textViewSettings"
         android:layout_width="288dp"
         android:layout_height="43dp"
-        android:text="Select whether to make the following visable to other users"
+        android:text="Select whether to make the following visible to other users"
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
