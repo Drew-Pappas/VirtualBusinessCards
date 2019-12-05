@@ -10,7 +10,12 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class contactsActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+
+    List<QRSnapshot> listContacts;
 
     private BottomNavigationView contactsMainNav;
     @Override
@@ -23,6 +28,10 @@ public class contactsActivity extends AppCompatActivity implements BottomNavigat
         contactsMainNav.getMenu().findItem(R.id.contacts_nav_item).setChecked(true);
 
         contactsMainNav.setOnNavigationItemSelectedListener(this);
+
+        listContacts = new ArrayList<>();
+        //listContacts.add()
+        //Use for loop to dynamically create list of contacts
 
     }
 
