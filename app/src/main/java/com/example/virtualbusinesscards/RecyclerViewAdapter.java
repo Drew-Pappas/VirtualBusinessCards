@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
     private Context mContext ;
@@ -48,16 +50,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent contactViewIntent = new Intent(mContext, contactViewActivity.class);
+                contactViewIntent.putExtra("Name", mData.get(position).getUserName());
+                contactViewIntent.putExtra("Email", mData.get(position).getUserEmail());
+                contactViewIntent.putExtra("Phone", mData.get(position).getUserPhone());
+                contactViewIntent.putExtra("Role", mData.get(position).getUserRole());
+                contactViewIntent.putExtra("Org", mData.get(position).getUserOrg());
+                contactViewIntent.putExtra("Location", mData.get(position).getUserLocation());
+                contactViewIntent.putExtra("Bio", mData.get(position).getUserBio());
 
-
-                //Intent intent = new Intent(mContext,contactsActivity.class);
                 // passing data to the book activity
                 //intent.putExtra("Title",mData.get(position).getTitle());
                 //intent.putExtra("Description",mData.get(position).getDescription());
                 //intent.putExtra("Thumbnail",mData.get(position).getThumbnail());
-                // start the activity
-                //mContext.startActivity(intent);
 
+                mContext.startActivity(contactViewIntent);
             }
         });
 
@@ -95,7 +102,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         }
     }
-
 
 
 }
