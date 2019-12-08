@@ -1,31 +1,27 @@
 package com.example.virtualbusinesscards;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-    //declare objects
+    //Declare objects
     Button buttonSignUpMain, buttonLoginMain;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //helloworld
 
         //connect to UI
         buttonSignUpMain = findViewById(R.id.buttonSignUpMain);
         buttonLoginMain = findViewById(R.id.buttonLogInMain);
 
-        //make sure buttons are working
+        //Set listeners to listen for clicks on the buttons
 
         buttonSignUpMain.setOnClickListener(this);
         buttonLoginMain.setOnClickListener(this);

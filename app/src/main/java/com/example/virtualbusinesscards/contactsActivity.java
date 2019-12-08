@@ -7,8 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -16,15 +14,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class contactsActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     List<QRSnapshot> listContacts;
-
-
 
     private BottomNavigationView contactsMainNav;
     @Override
@@ -38,20 +33,16 @@ public class contactsActivity extends AppCompatActivity implements BottomNavigat
 
         contactsMainNav.setOnNavigationItemSelectedListener(this);
 
-
-
         listContacts = new ArrayList<>();
+
         //Use for loop to dynamically create list of contacts
         generateContactList(listContacts);
 
-
-
+        //Assign list contacts to a UI element
         RecyclerView myRecyclerView = (RecyclerView) findViewById(R.id.contactsRecycler);
-
-
         myRecyclerView.setLayoutManager(new GridLayoutManager(this,3));
 
-        //myRecyclerView.setAdapter(myAdapter);
+
 
     }
 
@@ -67,12 +58,17 @@ public class contactsActivity extends AppCompatActivity implements BottomNavigat
                 startActivity(scanIntent);
 
                 return true;
+
             case R.id.profile_nav_item:
                 Intent profileIntent = new Intent(contactsActivity.this, myProfileActivity.class);
                 startActivity(profileIntent);
+
                 return true;
+
             default:
+
                 return false;
+
         }
 
     }
@@ -96,16 +92,14 @@ public class contactsActivity extends AppCompatActivity implements BottomNavigat
                 RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(
                         contactsActivity.this,
                         listContacts);
+
                 RecyclerView myRecyclerView = (RecyclerView) findViewById(R.id.contactsRecycler);
+
                 myRecyclerView.setLayoutManager(new GridLayoutManager(
                         contactsActivity.this,
                         2));
 
                 myRecyclerView.setAdapter(myAdapter);
-
-
-
-
 
             }
 
@@ -114,9 +108,5 @@ public class contactsActivity extends AppCompatActivity implements BottomNavigat
 
             }
         });
-
-
-
-
     }
 }

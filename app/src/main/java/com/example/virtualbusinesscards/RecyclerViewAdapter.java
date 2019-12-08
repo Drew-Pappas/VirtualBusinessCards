@@ -2,20 +2,15 @@ package com.example.virtualbusinesscards;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-
-import static androidx.core.content.ContextCompat.startActivity;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
@@ -45,8 +40,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.textViewFoundContactRole.setText(mData.get(position).getUserRole());
         holder.imageViewFoundContactPicture.setImageResource(R.drawable.ic_person_icon);
 
-
-
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,17 +52,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 contactViewIntent.putExtra("Location", mData.get(position).getUserLocation());
                 contactViewIntent.putExtra("Bio", mData.get(position).getUserBio());
 
-                // passing data to the book activity
-                //intent.putExtra("Title",mData.get(position).getTitle());
-                //intent.putExtra("Description",mData.get(position).getDescription());
-                //intent.putExtra("Thumbnail",mData.get(position).getThumbnail());
-
                 mContext.startActivity(contactViewIntent);
             }
         });
-
-
-
 
     }
 

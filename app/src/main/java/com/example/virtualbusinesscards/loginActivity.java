@@ -2,26 +2,20 @@ package com.example.virtualbusinesscards;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-// Testing commit
-// Testing commit without update
 public class loginActivity extends AppCompatActivity implements View.OnClickListener{
 
-    // declare objects
+    // Declare objects
     EditText editTextEmailLogin, editTextPasswordLogin;
     Button buttonLoginLogin, buttonForgot, buttonLoginBack;
     private FirebaseAuth mAuth;
@@ -32,20 +26,19 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // connect to Ui
+        // Connect to UI
         editTextEmailLogin = findViewById(R.id.editTextEmailLogin);
         editTextPasswordLogin = findViewById(R.id.editTextPasswordLogin);
         buttonLoginLogin = findViewById(R.id.buttonLoginLogIn);
         buttonForgot = findViewById(R.id.buttonForgot);
         buttonLoginBack = findViewById(R.id.buttonLoginBack);
 
-        //make sure buttons are working
+        //Set listeners on objects
         buttonLoginLogin.setOnClickListener(this);
         buttonForgot.setOnClickListener(this);
         buttonLoginBack.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
-
 
     }
 

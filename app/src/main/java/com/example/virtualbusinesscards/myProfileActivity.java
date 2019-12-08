@@ -76,7 +76,6 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
                         profilePiece.setFocusableInTouchMode(true);
                     }
 
-
                 }
 
                 if (isChecked == false){
@@ -86,7 +85,6 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
                         profilePiece.setFocusable(false);
                         profilePiece.setClickable(false);
                     }
-
 
                     updateProfile();
                     renderUI();
@@ -101,11 +99,6 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
         profileMainNav.getMenu().findItem(R.id.profile_nav_item).setChecked(true);
         profileMainNav.setOnNavigationItemSelectedListener(this);
 
-
-
-
-
-
     }
 
     @Override
@@ -115,6 +108,7 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
             case R.id.contacts_nav_item:
                 Intent contactsIntent = new Intent(myProfileActivity.this, contactsActivity.class);
                 startActivity(contactsIntent);
+
                 return true;
             case R.id.scan_nav_item:
                 Intent scanIntent = new Intent(myProfileActivity.this, homePageActivity.class);
@@ -156,10 +150,6 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
                 editTextProfileOrg.setText(foundUserOrg);
                 editTextProfileLocation.setText(foundUserLocation);
                 editTextProfileBio.setText(foundUserBio);
-
-
-
-
             }
 
             @Override
@@ -192,7 +182,6 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference userRef = database.getReference("Users");
 
-
         User updatedUser = new User(
                 currentUser, editTextProfileName.getText().toString(),
                 editTextProfileEmail.getText().toString(), editTextProfilePhone.getText().toString(),
@@ -201,8 +190,6 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
         );
 
         userRef.child(currentUser).setValue(updatedUser);
-
-
     }
 
 }

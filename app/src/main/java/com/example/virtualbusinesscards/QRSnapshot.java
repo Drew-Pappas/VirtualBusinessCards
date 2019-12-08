@@ -12,7 +12,6 @@ public class QRSnapshot {
     public long timestamp;
     public QRSnapshot userToBeAddedSnapshot;
 
-
     public QRSnapshot(){
     }
 

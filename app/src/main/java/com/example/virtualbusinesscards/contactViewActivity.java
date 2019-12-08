@@ -33,8 +33,6 @@ public class contactViewActivity extends AppCompatActivity implements View.OnCli
         String contactLocation = retrieveInfo.getStringExtra("Location");
         String contactBio = retrieveInfo.getStringExtra("Bio");
 
-
-
         //Find UI objects
         textViewContactName = findViewById(R.id.textViewContactName);
         textViewContactEmail = findViewById(R.id.textViewContactEmail);
@@ -47,8 +45,6 @@ public class contactViewActivity extends AppCompatActivity implements View.OnCli
         buttonContactViewBack = findViewById(R.id.buttonContactViewBack);
         buttonContactViewBack.setOnClickListener(this);
 
-        //editTextTest = findViewById(R.id.);
-
         //Assign UI objects the variables retrieved from the data
         textViewContactName.setText(contactName);
         textViewContactEmail.setText(contactEmail);
@@ -58,9 +54,6 @@ public class contactViewActivity extends AppCompatActivity implements View.OnCli
         textViewContactLocation.setText(contactLocation);
         textViewContactBio.setText(contactBio);
 
-
-
-
     }
 
     @Override
@@ -69,6 +62,5 @@ public class contactViewActivity extends AppCompatActivity implements View.OnCli
             Intent contactsIntent = new Intent(contactViewActivity.this, contactsActivity.class);
             startActivity(contactsIntent);
         }
-
     }
 }

@@ -106,8 +106,6 @@ public class signUpActivity extends AppCompatActivity implements View.OnClickLis
                                                 );
                                         myRef.child(userID).setValue(newVBUser);
 
-
-
                                         Intent loginIntent = new Intent(signUpActivity.this, loginActivity.class);
                                         startActivity(loginIntent);
 
@@ -123,12 +121,10 @@ public class signUpActivity extends AppCompatActivity implements View.OnClickLis
                 }
 
 
-
-
             } else {
                 Toast.makeText(this, "All fields must be entered", Toast.LENGTH_SHORT).show();
-            }
 
+            }
 
         } else if (view == buttonSignUpBack){
             Intent initialActivityIntent = new Intent(signUpActivity.this, MainActivity.class);

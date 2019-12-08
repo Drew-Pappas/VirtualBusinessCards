@@ -6,31 +6,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.CameraX;
-
-
-import androidx.camera.core.ImageAnalysis;
-import androidx.camera.core.ImageAnalysisConfig;
-import androidx.camera.core.ImageCapture;
-import androidx.camera.core.ImageCaptureConfig;
-import androidx.camera.core.ImageCapture.OnImageCapturedListener;
-import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
 import androidx.camera.core.PreviewConfig;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 
 
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.os.Bundle;
-
-import android.os.Environment;
-import android.util.Size;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
@@ -50,13 +37,7 @@ import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcode;
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcodeDetector;
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcodeDetectorOptions;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
-
-import java.io.File;
-import java.nio.ByteBuffer;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 
 public class cameraInputActivity extends AppCompatActivity implements View.OnClickListener {
@@ -78,7 +59,7 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
 
         imageViewTest = (ImageView) findViewById(R.id.imageViewTest);
         buttonCameraInputBack.setOnClickListener(this);
-        buttonScan.setOnClickListener(this);//Testing for scanning the QR
+        buttonScan.setOnClickListener(this);
 
         
         // Here, thisActivity is the current activity
@@ -124,7 +105,6 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
                 } else {
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
-                    //Toast.makeText(this, "didn't work", Toast.LENGTH_SHORT).show();
                     //TODO For some reason denying permissions doesn't show anything. Will need to be fixed.
                 }
                 return;
@@ -136,8 +116,6 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
     }
 
     public void startCamera(){
-
-
         PreviewConfig config = new PreviewConfig.Builder().build();
         Preview preview = new Preview(config);
 
@@ -145,11 +123,9 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
                 new Preview.OnPreviewOutputUpdateListener() {
                     @Override
                     public void onUpdated(Preview.PreviewOutput previewOutput) {
-                        // Your code here. For example, use previewOutput.getSurfaceTexture()
-                        // and post to a GL renderer.
 
-                        //TODO Does this work on an actual phone?
                         cameraInputTextureView.setSurfaceTexture(previewOutput.getSurfaceTexture());
+
                     };
                 });
 
@@ -157,16 +133,11 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
 
     }
 
-
-
-
-
     @Override
     public void onClick(View view) {
         if (view == buttonCameraInputBack){
             Intent homepageIntent = new Intent(cameraInputActivity.this, homePageActivity.class);
             startActivity(homepageIntent);
-
 
         } else if (view == buttonScan){
             Bitmap item = cameraInputTextureView.getBitmap();
@@ -208,7 +179,6 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
         for(FirebaseVisionBarcode item : firebaseVisionBarcodes){
             int value_type = item.getValueType();
 
-
             switch(value_type){
                 case FirebaseVisionBarcode.TYPE_TEXT:
                 {
@@ -221,8 +191,6 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
                 default:
                     break;
             }
-
-
         }
     }
 
@@ -232,10 +200,7 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
         final DatabaseReference QRSnapshotRef = database.getReference("QRSnapshot");
 
         String currentUser;
-
         currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        //Current user reference
 
         userRef.orderByChild("userID").equalTo(currentUser).addChildEventListener(new ChildEventListener() {
             @Override
@@ -279,9 +244,6 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
             }
 
         });
-
-
-
         return null;
     }
 
@@ -290,12 +252,9 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
         final DatabaseReference contactListRef = database.getReference("ContactList");
         final DatabaseReference QRSnapshotRef = database.getReference("QRSnapshot");
 
-
-
         String currentUser;
         currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        //
         QRSnapshotRef.orderByChild("userID").equalTo(QRReference).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
