@@ -80,7 +80,7 @@ public class contactsActivity extends AppCompatActivity implements BottomNavigat
         final DatabaseReference contactListRef = database.getReference("ContactList");
         final DatabaseReference contactListUserReference = contactListRef.child(currentUser);
 
-        contactListUserReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        contactListUserReference.orderByChild("userName").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
