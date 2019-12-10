@@ -5,8 +5,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class myProfileActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
@@ -226,7 +230,23 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
             imageUri = data.getData();
-            profilePic.setImageURI(imageUri); //TODO Add firebase storage capabilities for profile pic
+            //profilePic.setImageURI(imageUri); //TODO Add firebase storage capabilities for profile pic
+
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                profilePic.setImageBitmap(bitmap);
+                //API version 28 version
+                //ImageDecoder.Source source = ImageDecoder.createSource(this.getContentResolver(), imageUri);
+                //Bitmap bitmap = ImageDecoder.decodeBitmap(source);
+
+            } catch (IOException e){
+
+            }
+
+
+
+
+            Toast.makeText(this, imageUri.toString(), Toast.LENGTH_LONG).show();
         }
     }
 }
