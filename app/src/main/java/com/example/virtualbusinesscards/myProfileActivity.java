@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +29,9 @@ import java.util.ArrayList;
 
 public class myProfileActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private Uri imageUri;
+
     private BottomNavigationView profileMainNav;
     EditText editTextProfileName, editTextProfileEmail, editTextProfilePhone,
              editTextProfileRole, editTextProfileOrg, editTextProfileLocation,
@@ -36,6 +40,7 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
     Switch switchProfileEdit;
 
     ImageView profilePic;
+    Button buttonChooseImage;
 
     ArrayList<EditText> profilePieces = new ArrayList<EditText>();
 
@@ -59,13 +64,20 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
         profilePieces.add(editTextProfileLocation);
         profilePieces.add(editTextProfileBio);
 
-        //profilePic = findViewById((R.id.profilePic));
+        profilePic = findViewById((R.id.profilePic));
+        buttonChooseImage = findViewById((R.id.buttonChooseImage));
+
+        buttonChooseImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFileChooser();
+            }
+        });
 
         renderUI();
 
         switchProfileEdit = findViewById(R.id.switchProfileEdit);
         switchProfileEdit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
 
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -91,6 +103,13 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
                 }
             }
 
+        });
+
+        buttonChooseImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFileChooser();
+            }
         });
 
 
@@ -122,6 +141,7 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
                 return false;
         }
     }
+
 
     public void renderUI(){
         String currentUser;
@@ -192,4 +212,21 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
         userRef.child(currentUser).setValue(updatedUser);
     }
 
+    private void openFileChooser(){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            profilePic.setImageURI(imageUri);
+        }
+    }
 }
