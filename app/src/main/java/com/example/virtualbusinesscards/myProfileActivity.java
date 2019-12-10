@@ -30,7 +30,7 @@ import java.util.ArrayList;
 public class myProfileActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
     private static final int PICK_IMAGE_REQUEST = 1;
-    private Uri imageUri;
+    private Uri imageUri; //for profile image selection
 
     private BottomNavigationView profileMainNav;
     EditText editTextProfileName, editTextProfileEmail, editTextProfilePhone,
