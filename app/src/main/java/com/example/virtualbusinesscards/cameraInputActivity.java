@@ -207,12 +207,22 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 User foundUser = dataSnapshot.getValue(User.class);
                 String foundUserName = foundUser.userName;
-                String foundUserEmail = foundUser.userEmail;
-                String foundUserPhone = foundUser.userPhone;
                 String foundUserRole = foundUser.userRole;
-                String foundUserOrg = foundUser.userOrg;
-                String foundUserLocation = foundUser.userLocation;
                 String foundUserBio = foundUser.userBio;
+
+                Settings foundUserSettings = foundUser.userShareSettings;
+
+                String foundUserEmail = Settings.checkShareSetting(foundUserSettings.shareUserEmail,
+                        foundUser.userEmail);
+
+                String foundUserLocation = Settings.checkShareSetting(foundUserSettings.shareUserLocation,
+                        foundUser.userLocation);
+
+                String foundUserPhone = Settings.checkShareSetting(foundUserSettings.shareUserPhone,
+                        foundUser.userPhone);
+
+                String foundUserOrg = Settings.checkShareSetting(foundUserSettings.shareUserOrg,
+                        foundUser.userOrg);
 
                 QRSnapshot newQRSnapshotChild = new QRSnapshot(
                         currentUser,foundUserName,foundUserEmail,

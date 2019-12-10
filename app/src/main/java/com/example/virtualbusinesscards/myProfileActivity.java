@@ -226,7 +226,7 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
             imageUri = data.getData();
-            profilePic.setImageURI(imageUri);
+            profilePic.setImageURI(imageUri); //TODO Add firebase storage capabilities for profile pic
         }
     }
 }
