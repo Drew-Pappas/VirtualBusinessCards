@@ -2,13 +2,23 @@ package com.example.virtualbusinesscards;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -39,6 +49,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.textViewFoundContactOrg.setText(mData.get(position).getUserOrg());
         holder.textViewFoundContactRole.setText(mData.get(position).getUserRole());
         holder.imageViewFoundContactPicture.setImageResource(R.drawable.ic_person_icon);
+        StorageReference profileImageReference = getImageReference(mData.get(position).getUserID()); //TODO Fix sending incorrect IDs
+        downloadImage(profileImageReference, holder.imageViewFoundContactPicture);
+
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +68,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 mContext.startActivity(contactViewIntent);
             }
         });
+
 
     }
 
@@ -86,6 +100,32 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
         }
+    }
+
+    public void downloadImage(StorageReference reference, ImageView imageViewToRender){
+
+        reference.getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                // Use the bytes to display the image
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes , 0, bytes .length);
+                imageViewToRender.setImageBitmap(bitmap);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+                Toast.makeText(mContext, "Didn't download image", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public StorageReference getImageReference(String userID){ //TODO Fix getting references happening before download can complete
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://virtualbusinesscards-96adf.appspot.com");
+        StorageReference imagesRef = storageRef.child("images/" + userID);
+        //Toast.makeText(mContext, userID, Toast.LENGTH_SHORT).show();
+        return imagesRef;
     }
 
 

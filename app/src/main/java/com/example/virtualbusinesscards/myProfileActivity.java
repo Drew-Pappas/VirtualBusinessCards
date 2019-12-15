@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ import android.widget.Switch;
 import android.widget.Toast;
 import android.widget.ImageView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -27,7 +30,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -174,6 +181,7 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
                 editTextProfileOrg.setText(foundUserOrg);
                 editTextProfileLocation.setText(foundUserLocation);
                 editTextProfileBio.setText(foundUserBio);
+
             }
 
             @Override
@@ -234,10 +242,14 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-                profilePic.setImageBitmap(bitmap);
+
+                //profilePic.setImageBitmap(bitmap);
                 //API version 28 version
                 //ImageDecoder.Source source = ImageDecoder.createSource(this.getContentResolver(), imageUri);
                 //Bitmap bitmap = ImageDecoder.decodeBitmap(source);
+
+                uploadImage(bitmap);
+
 
             } catch (IOException e){
 
@@ -246,7 +258,65 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
 
 
 
-            Toast.makeText(this, imageUri.toString(), Toast.LENGTH_LONG).show();
         }
+    }
+    public void uploadImage(Bitmap bitmap) {
+        String currentUser;
+        currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://virtualbusinesscards-96adf.appspot.com");
+        StorageReference imagesRef = storageRef.child("images/" + currentUser);
+
+        UploadTask uploadTask = imagesRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                //Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                // Do what you want
+
+                StorageReference userReference = getImageReference(currentUser);
+                downloadImage(userReference, profilePic);
+
+
+
+
+            }
+        });
+    }
+
+    public void downloadImage(StorageReference reference, ImageView imageViewToRender){
+
+        reference.getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                // Use the bytes to display the image
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes , 0, bytes .length);
+                imageViewToRender.setImageBitmap(bitmap);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+    }
+
+
+    public StorageReference getImageReference(String userID){
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://virtualbusinesscards-96adf.appspot.com");
+        StorageReference imagesRef = storageRef.child("images/" + userID);
+        return imagesRef;
     }
 }
