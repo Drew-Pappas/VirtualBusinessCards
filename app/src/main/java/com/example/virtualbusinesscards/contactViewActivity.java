@@ -3,18 +3,24 @@ package com.example.virtualbusinesscards;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 public class contactViewActivity extends AppCompatActivity implements View.OnClickListener{
     Button buttonContactViewBack;
     TextView textViewContactName, textViewContactEmail, textViewContactPhone,
             textViewContactRole, textViewContactOrg, textViewContactLocation,
             textViewContactBio;
+
+    ImageView imageViewContactProfilePicture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +38,7 @@ public class contactViewActivity extends AppCompatActivity implements View.OnCli
         String contactOrg = retrieveInfo.getStringExtra("Org");
         String contactLocation = retrieveInfo.getStringExtra("Location");
         String contactBio = retrieveInfo.getStringExtra("Bio");
+        String contactPhotoURI = retrieveInfo.getStringExtra("userPhotoURI");
 
         //Find UI objects
         textViewContactName = findViewById(R.id.textViewContactName);
@@ -45,6 +52,8 @@ public class contactViewActivity extends AppCompatActivity implements View.OnCli
         buttonContactViewBack = findViewById(R.id.buttonContactViewBack);
         buttonContactViewBack.setOnClickListener(this);
 
+        imageViewContactProfilePicture = findViewById(R.id.imageViewContactProfilePicture);
+
         //Assign UI objects the variables retrieved from the data
         textViewContactName.setText(contactName);
         textViewContactEmail.setText(contactEmail);
@@ -53,6 +62,11 @@ public class contactViewActivity extends AppCompatActivity implements View.OnCli
         textViewContactOrg.setText(contactOrg);
         textViewContactLocation.setText(contactLocation);
         textViewContactBio.setText(contactBio);
+
+        if(!contactPhotoURI.equals("")){
+            Uri userURI = Uri.parse(contactPhotoURI);
+            Glide.with(contactViewActivity.this).load(userURI).into(imageViewContactProfilePicture);
+        }
 
     }
 

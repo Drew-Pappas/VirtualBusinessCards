@@ -4,12 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +22,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -37,6 +40,8 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class myProfileActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
@@ -51,7 +56,7 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
     Switch switchProfileEdit;
 
     ImageView profilePic;
-    Button buttonChooseImage;
+
 
     ArrayList<EditText> profilePieces = new ArrayList<EditText>();
 
@@ -76,14 +81,8 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
         profilePieces.add(editTextProfileBio);
 
         profilePic = findViewById((R.id.profilePic));
-        buttonChooseImage = findViewById((R.id.buttonChooseImage));
 
-        buttonChooseImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFileChooser();
-            }
-        });
+
 
         renderUI();
 
@@ -98,6 +97,16 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
                     for (EditText profilePiece : profilePieces){
                         profilePiece.setFocusableInTouchMode(true);
                     }
+                    profilePic.setClickable(true);
+                    profilePic.setFocusable(true);
+
+                    profilePic.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            openFileChooser();
+                        }
+                    });
+
 
                 }
 
@@ -108,20 +117,19 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
                         profilePiece.setFocusable(false);
                         profilePiece.setClickable(false);
                     }
+                    profilePic.setClickable(false);
+                    profilePic.setFocusable(false);
+
 
                     updateProfile();
                     renderUI();
+
+
                 }
             }
 
         });
 
-        buttonChooseImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFileChooser();
-            }
-        });
 
 
         //Connect and set navigation UI
@@ -173,6 +181,7 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
                 String foundUserOrg = foundUser.userOrg;
                 String foundUserLocation = foundUser.userLocation;
                 String foundUserBio = foundUser.userBio;
+                String foundUserPhotoURI = foundUser.userPhotoURI;
 
                 editTextProfileName.setText(foundUserName);
                 editTextProfileEmail.setText(foundUserEmail);
@@ -181,6 +190,15 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
                 editTextProfileOrg.setText(foundUserOrg);
                 editTextProfileLocation.setText(foundUserLocation);
                 editTextProfileBio.setText(foundUserBio);
+                if (!foundUserPhotoURI.equals("")) {
+                    Glide.with(myProfileActivity.this).load(foundUserPhotoURI).into(profilePic);
+
+                } else {
+                    profilePic.setImageResource(R.drawable.ic_person_icon);
+
+
+                }
+
 
             }
 
@@ -207,6 +225,34 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
 
     }
 
+    public void getImage(StorageReference storageRef){
+        String currentUser;
+        currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference userRef = database.getReference("Users");
+
+        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                // Got the download URL for 'users/me/profile.png'
+
+                Glide.with(myProfileActivity.this).load(uri).into(profilePic);
+
+                DatabaseReference hopperRef = userRef.child(currentUser);
+                Map<String, Object> hopperUpdates = new HashMap<>();
+                hopperUpdates.put("userPhotoURI", uri.toString());
+
+                hopperRef.updateChildren(hopperUpdates);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+    }
+
     public void updateProfile(){
         String currentUser;
         currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -214,14 +260,18 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference userRef = database.getReference("Users");
 
-        User updatedUser = new User(
-                currentUser, editTextProfileName.getText().toString(),
-                editTextProfileEmail.getText().toString(), editTextProfilePhone.getText().toString(),
-                editTextProfileRole.getText().toString(), editTextProfileOrg.getText().toString(),
-                editTextProfileLocation.getText().toString(), editTextProfileBio.getText().toString()
-        );
+        DatabaseReference hopperRef = userRef.child(currentUser);
+        Map<String, Object> hopperUpdates = new HashMap<>();
+        hopperUpdates.put("userName", editTextProfileName.getText().toString());
+        hopperUpdates.put("userEmail", editTextProfileEmail.getText().toString());
+        hopperUpdates.put("userPhone", editTextProfilePhone.getText().toString());
+        hopperUpdates.put("userRole", editTextProfileRole.getText().toString());
+        hopperUpdates.put("userOrg", editTextProfileOrg.getText().toString());
+        hopperUpdates.put("userLocation", editTextProfileLocation.getText().toString());
+        hopperUpdates.put("userBio", editTextProfileBio.getText().toString());
 
-        userRef.child(currentUser).setValue(updatedUser);
+        hopperRef.updateChildren(hopperUpdates);
+
     }
 
     private void openFileChooser(){
@@ -251,6 +301,7 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
                 uploadImage(bitmap);
 
 
+
             } catch (IOException e){
 
             }
@@ -260,6 +311,8 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
 
         }
     }
+
+
     public void uploadImage(Bitmap bitmap) {
         String currentUser;
         currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -283,17 +336,18 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                 //Uri downloadUrl = taskSnapshot.getDownloadUrl();
                 // Do what you want
+                Toast.makeText(myProfileActivity.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
 
                 StorageReference userReference = getImageReference(currentUser);
-                downloadImage(userReference, profilePic);
-
-
+                //downloadImage(userReference, profilePic);
+                getImage(userReference);
 
 
             }
         });
     }
 
+    /**
     public void downloadImage(StorageReference reference, ImageView imageViewToRender){
 
         reference.getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
@@ -311,7 +365,7 @@ public class myProfileActivity extends AppCompatActivity implements BottomNaviga
             }
         });
     }
-
+     **/
 
     public StorageReference getImageReference(String userID){
         FirebaseStorage storage = FirebaseStorage.getInstance();

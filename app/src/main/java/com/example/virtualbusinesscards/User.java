@@ -12,9 +12,12 @@ public class User {
     public String userLocation;
     public String userBio;
     public Settings userShareSettings;
+    public String userPhotoURI;
 
-
-    //TODO Add user photo
+    public void setUserPhotoURI(String userPhotoURI) {
+        this.userPhotoURI = userPhotoURI;
+    }
+//TODO Add user photo
 
     public User(){
     }
@@ -35,6 +38,7 @@ public class User {
         this.userLocation = userLocation;
         this.userBio = userBio;
         this.userShareSettings = new Settings();
+        this.userPhotoURI = "";
 
     }
 }

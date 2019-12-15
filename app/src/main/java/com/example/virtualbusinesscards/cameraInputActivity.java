@@ -223,11 +223,12 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
 
                 String foundUserOrg = Settings.checkShareSetting(foundUserSettings.shareUserOrg,
                         foundUser.userOrg);
+                String foundUserPhotoURI = foundUser.userPhotoURI;
 
                 QRSnapshot newQRSnapshotChild = new QRSnapshot(
                         currentUser,foundUserName,foundUserEmail,
                         foundUserPhone, foundUserRole, foundUserOrg,
-                        foundUserLocation,foundUserBio);
+                        foundUserLocation,foundUserBio, foundUserPhotoURI);
 
                 QRSnapshotRef.child(QRReference).child("userToBeAddedSnapshot").setValue(newQRSnapshotChild);
 
@@ -276,11 +277,12 @@ public class cameraInputActivity extends AppCompatActivity implements View.OnCli
                 String foundUserOrg = foundUser.userOrg;
                 String foundUserLocation = foundUser.userLocation;
                 String foundUserBio = foundUser.userBio;
+                String foundUserPhotoURI = foundUser.userPhotoURI;
 
                 QRSnapshot newQRSnapshotChild = new QRSnapshot(
                         currentUser,foundUserName,foundUserEmail,
                         foundUserPhone, foundUserRole, foundUserOrg,
-                        foundUserLocation,foundUserBio);
+                        foundUserLocation,foundUserBio, foundUserPhotoURI);
 
                 contactListRef.child(currentUser).child(QRReference).setValue(newQRSnapshotChild);
                 Intent newContactIntent = new Intent(cameraInputActivity.this,

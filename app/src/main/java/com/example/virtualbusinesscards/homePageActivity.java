@@ -90,10 +90,12 @@ public class homePageActivity extends AppCompatActivity implements BottomNavigat
                     String foundUserOrg = Settings.checkShareSetting(foundUserSettings.shareUserOrg,
                             foundUser.userOrg);
 
+                    String foundUserPhotoURI = foundUser.userPhotoURI;
+
                      QRSnapshot newQRSnapshot = new QRSnapshot(
                              foundUserID,foundUserName,foundUserEmail,
                              foundUserPhone, foundUserRole, foundUserOrg,
-                             foundUserLocation,foundUserBio);
+                             foundUserLocation,foundUserBio, foundUserPhotoURI);
 
                      QRSnapshotRef.child(currentUser).setValue(newQRSnapshot);
 
@@ -208,11 +210,12 @@ public class homePageActivity extends AppCompatActivity implements BottomNavigat
                 String foundUserOrg = foundUser.userOrg;
                 String foundUserLocation = foundUser.userLocation;
                 String foundUserBio = foundUser.userBio;
+                String foundUserPhotoURI = foundUser.userPhotoURI;
 
                 QRSnapshot newQRSnapshotChild = new QRSnapshot(
                         foundUserID,foundUserName,foundUserEmail,
                         foundUserPhone, foundUserRole, foundUserOrg,
-                        foundUserLocation,foundUserBio);
+                        foundUserLocation,foundUserBio, foundUserPhotoURI);
 
                 contactListRef.child(currentUser).child(foundUserID).setValue(newQRSnapshotChild);
 

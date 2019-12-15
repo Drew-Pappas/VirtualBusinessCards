@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -49,8 +51,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.textViewFoundContactOrg.setText(mData.get(position).getUserOrg());
         holder.textViewFoundContactRole.setText(mData.get(position).getUserRole());
         holder.imageViewFoundContactPicture.setImageResource(R.drawable.ic_person_icon);
-        StorageReference profileImageReference = getImageReference(mData.get(position).getUserID()); //TODO Fix sending incorrect IDs
-        downloadImage(profileImageReference, holder.imageViewFoundContactPicture);
+        //downloadImage(profileImageReference, holder.imageViewFoundContactPicture);
+        if (!mData.get(position).getUserPhotoURI().equals("")){
+            Uri userURI = Uri.parse(mData.get(position).getUserPhotoURI());
+            Glide.with(holder.itemView.getContext()).load(userURI).into(holder.imageViewFoundContactPicture);
+        }
+
 
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +70,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 contactViewIntent.putExtra("Org", mData.get(position).getUserOrg());
                 contactViewIntent.putExtra("Location", mData.get(position).getUserLocation());
                 contactViewIntent.putExtra("Bio", mData.get(position).getUserBio());
+                contactViewIntent.putExtra("userPhotoURI", mData.get(position).getUserPhotoURI());
 
                 mContext.startActivity(contactViewIntent);
             }

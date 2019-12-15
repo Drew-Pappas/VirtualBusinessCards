@@ -11,14 +11,19 @@ public class QRSnapshot {
     public String userBio;
     public long timestamp;
     public QRSnapshot userToBeAddedSnapshot;
+    public String userPhotoURI;
 
     public QRSnapshot(){
+    }
+
+    public void setUserPhotoURI(String userPhotoURI) {
+        this.userPhotoURI = userPhotoURI;
     }
 
     //set entered user to the variables declared
     public QRSnapshot(String userID, String userName, String userEmail,
                 String userPhone, String userRole, String userOrg,
-                String userLocation, String userBio) {
+                String userLocation, String userBio, String userPhotoURI) {
 
 
         this.userID = userID;
@@ -31,7 +36,12 @@ public class QRSnapshot {
         this.userBio = userBio;
         this.timestamp = System.nanoTime();
         this.userToBeAddedSnapshot = new QRSnapshot();
+        this.userPhotoURI=userPhotoURI;
 
+    }
+
+    public String getUserPhotoURI() {
+        return userPhotoURI;
     }
 
     public String getUserID() {
